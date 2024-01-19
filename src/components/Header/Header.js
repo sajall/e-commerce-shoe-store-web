@@ -31,7 +31,10 @@ export function Header() {
                     : null
                     }
                     {/* <li>Admin Panel</li> */}
+                    {user? 
                     <Link to='/home'>Home</Link>
+                    : null
+                    }
                     {user? 
                  <Link to='/completed-orders'>
                   <li><b>Completed Orders</b></li>
