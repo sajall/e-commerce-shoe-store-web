@@ -64,7 +64,10 @@ export function Header() {
                     }}><b>Log out</b></button> </li>
                     : null
                 }
-                <li><img src="user.png" alt="" /></li>
+                {user? 
+                <l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i><img src="user.png" alt="" /></l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i>
+                :null
+                }
                     {/* <li>img</li> */}
                 </ul>
 

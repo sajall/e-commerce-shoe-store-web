@@ -24,7 +24,7 @@ export function PendingOrders() {
   }
 
   return (
-    <div>
+    <div className="h-[100vh]">
       {orders?.map((crt, i) => {
         return (
           <div

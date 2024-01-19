@@ -5,7 +5,7 @@ export function Centerbody(){
     return (
        <div className="h-[100vh]" id="center">
        <div id="white">
-           <div>
+           <div className="font-bold text-3xl">
             <h1>Feet wear <span>Paradise</span></h1>
            </div>
            <div id="text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rerum,

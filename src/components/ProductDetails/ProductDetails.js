@@ -4,15 +4,13 @@ import { useDispatch } from "react-redux";
 import { setCart } from "../../redux/slices/CartSlice";
 import { getSingleProductApi } from "../../api/product/product";
 
-import bg from '../../assets/bg.png'
+import bg from "../../assets/bg.png";
 
-export function ProductDetails({ }) {
-
-
+export function ProductDetails() {
   const dispatch = useDispatch();
   const param = useParams();
 
-  const [singleProduct, setSingleProduct] = useState({})
+  const [singleProduct, setSingleProduct] = useState({});
 
   const findProduct = async () => {
     try {
@@ -20,17 +18,14 @@ export function ProductDetails({ }) {
       if (res.status == 200) {
         setSingleProduct(res.data);
       }
-
     } catch (err) {
-      console.log(err, 'some error occoured');
+      console.log(err, "some error occoured");
     }
-  }
+  };
 
   useEffect(() => {
     findProduct();
-  }, [])
-
-
+  }, []);
 
   const [selectedImg, setSelectedImg] = useState("");
   // const [elementt, setElementt] = useState('');
@@ -51,31 +46,28 @@ export function ProductDetails({ }) {
     dispatch(setCart(objToDispatch));
   };
 
-
   return (
     <>
-
       {singleProduct ? (
-
         <>
           <div className="h-[500px] flex items-center">
             {/* image wali div */}
             <div className="w-[50%] flex gap-7 justify-center ">
               <div className=" flex flex-col gap-3">
-                {singleProduct && singleProduct?.images?.map((item, i) => (
-                  <img
-                    onClick={() => 
-                      // setSelectedImg({ isSingleProduct: true, index: i })
-                      setSelectedImg(item)
-                    }
-                    className="w-[100px] "
-                    src={item}
-                    alt=""
-                  />
-                ))}
+                {singleProduct &&
+                  singleProduct?.images?.map((item, i) => (
+                    <img
+                      onClick={() =>
+                        // setSelectedImg({ isSingleProduct: true, index: i })
+                        setSelectedImg(item)
+                      }
+                      className="w-[100px] "
+                      src={item}
+                      alt=""
+                    />
+                  ))}
               </div>
               <div>
-
                 {/* {
                   // singleProduct?.images.find((img)=>{})
                    singleProduct?.images?.forEach((item , index) => {
@@ -84,14 +76,12 @@ export function ProductDetails({ }) {
                     }
                     
                  } ) } */}
-
-                      {singleProduct ? 
-                <img className="w-[400px]" src={selectedImg}alt=""/> 
-                 : <img
-                  className="w-[400px]"
-                  src={bg}
-                   alt="" 
-                 />}
+{/* selectedImg */}
+                {singleProduct ? 
+                  < img className="w-[400px] h-[400px] border-2 border-blue-300" src={selectedImg} alt="click to load image" />
+                 : 
+                  <img className="w-[400px]" src={bg} alt="" />
+                }
               </div>
             </div>
             {/* dussri wali div */}
@@ -99,11 +89,12 @@ export function ProductDetails({ }) {
             <div className="w-[50%]">
               <div>
                 <h1 className="text-2xl font-bold">{singleProduct?.name}</h1>
-                {singleProduct && singleProduct?.colors?.map((col, i) => (
-                  <span key={i} className="text-lg font-bold">
-                    {col} /{" "}
-                  </span>
-                ))}
+                {singleProduct &&
+                  singleProduct?.colors?.map((col, i) => (
+                    <span key={i} className="text-lg font-bold">
+                      {col} /{" "}
+                    </span>
+                  ))}
                 <br />
                 <span className="text-lg text-red-700 line line-through">
                   {" "}
@@ -117,19 +108,21 @@ export function ProductDetails({ }) {
               <div className="flex flex-col gap-3 mt-10 ">
                 <h3 className="text-2xl font-bold">Select size</h3>
                 <div className="w-[400px] flex flex-wrap gap-3">
-                  {singleProduct && singleProduct?.sizes?.map((size, i) => (
-                    <button
-                      onClick={() => setSelectedSize(size)}
-                      key={i}
-                      className={
-                        selectedSize == size
-                          ? selectedSizeStyle
-                          : "border-2 border-black  w-[80px] h-[30px]"
-                      } updated
-                    >
-                      {size}
-                    </button>
-                  ))}
+                  {singleProduct &&
+                    singleProduct?.sizes?.map((size, i) => (
+                      <button
+                        onClick={() => setSelectedSize(size)}
+                        key={i}
+                        className={
+                          selectedSize == size
+                            ? selectedSizeStyle
+                            : "border-2 border-black  w-[80px] h-[30px]"
+                        }
+                        updated
+                      >
+                        {size}
+                      </button>
+                    ))}
                 </div>
                 <div className="flex justify-start items-center  gap-3 w-[350px]">
                   <span className="font-bold">Quantity:</span>
@@ -161,10 +154,10 @@ export function ProductDetails({ }) {
               </div>
             </div>
           </div>
-        
         </>
-      ) : 'Loading ...'}
-
+      ) : (
+        "Loading ..."
+      )}
     </>
   );
 }

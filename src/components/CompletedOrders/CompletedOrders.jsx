@@ -3,7 +3,7 @@
 export function CompletedOrders(){
     return(
         <>
-    <div>hello there</div>
+    <div className="h-[100vh]">Completed orders</div>
         </>
     )
 }
