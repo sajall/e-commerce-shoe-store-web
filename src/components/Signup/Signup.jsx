@@ -146,8 +146,10 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { AlertBox, AlertBoxParagraph, AlertBoxTage, ArrowBox, ButtonBox, CancelAndSaveBtn, EmailMainBox, InputLable, MailBox, MainInputCityBox, MainZipCodeBox, UserTextField } from "./styled-component";
 import { signupApi } from "../../api/auth/auth";
+import { useNavigate } from "react-router-dom";
 
 export const SignUp = () => {
+  const navigate = useNavigate()
 
   const {
     register,
@@ -157,6 +159,10 @@ export const SignUp = () => {
   const onSubmit = async (data) => {
 
       const res = await signupApi(data)
+
+      if(res.status == 200){
+        navigate('/login')
+      }
       console.log(res, 'data');
 
   };

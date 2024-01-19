@@ -53,6 +53,7 @@
 #two{
     background-color: white;
     width: 150px;
+    display: flex;
 
 }
 

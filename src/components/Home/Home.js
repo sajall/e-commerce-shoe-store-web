@@ -13,7 +13,7 @@ export function Home({ }) {
   useEffect(() => {
     getproductsApi().then((res) => setProducts(res.data))
   }, [])
-  
+
   return (
     <>
       <img src="Banner.webp" alt="" />
@@ -35,16 +35,14 @@ export function Home({ }) {
           <span className='absolute text-xl'>Bata</span>
 
         </div>
-        ProductDetails
         <div>
           <img src="https://shoe-paradies.vercel.app/_next/image?url=%2Fshoe.avif&w=1920&q=75" alt="" />
           <span className='absolute text-xl'>Service</span>
 
         </div>
       </div>
-      <h1 className='mt-[120px] font-bold text-2xl'>By Addidas</h1>
-      <Shoeswiper></Shoeswiper>
-
+      <h1 className='mt-[120px] font-bold text-2xl'></h1>
+      <Shoeswiper products={products} />
 
       <div className='flex flex-wrap gap-5 justify-center'>
         {products.map((prod, i) => {

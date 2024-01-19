@@ -1,19 +1,22 @@
 
 import { useState } from 'react';
 import './Header.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
 export function Header() {
-    
-    const [mydropdown, setMydropdown] = useState(false);
 
-    const showDropdown = ()=>{
-        
+    const [mydropdown, setMydropdown] = useState(true);
+    const navigate =useNavigate()
+
+    const showDropdown = () => {
+
         setMydropdown(!mydropdown)
-        
+
     }
+
+    const user = JSON.parse(localStorage.getItem('user'));
 
     return (
 
@@ -21,11 +24,26 @@ export function Header() {
             <div id='one'>
                 <img src="logo.webp" alt="" />
                 <ul id="list">
+                    {!user? 
+                    <Link to='/login'>
                     <li>Log in</li>
-                    <li>Admin Panel</li>
+                    </Link>
+                    : null
+                    }
+                    {/* <li>Admin Panel</li> */}
                     <Link to='/home'>Home</Link>
-                    <li><b>Completed Orders</b></li>
-                    <li>Pending Orders</li>
+                    {user? 
+                 <Link to='/completed-orders'>
+                  <li><b>Completed Orders</b></li>
+                 </Link> : null
+                }
+                 {user?
+                    <Link to='/pending-orders'>
+                        <li>Pending Orders</li>
+                    </Link>
+                    : null
+                 } 
+                  {user?
                     < li onClick={showDropdown} id='dropdownparent' >Brands
                         <ul id='dropdown' className={mydropdown == true ? 'show' : 'hidden'}>
                             <li>Addidas</li>
@@ -33,13 +51,20 @@ export function Header() {
                             <li>Service</li>
                             <li>Bata</li>
                         </ul>
-                    </li>
+                    </li>: null
+                }  
                 </ul>
             </div>
             <div id='two'>
                 <ul>
-                    <li> <b>Log out</b></li>
-                    <li><img src="user.png" alt="" /></li>
+                    {user? 
+                    <li> <button onClick={()=>{
+                        localStorage.clear();
+                        navigate('/')
+                    }}><b>Log out</b></button> </li>
+                    : null
+                }
+                <li><img src="user.png" alt="" /></li>
                     {/* <li>img</li> */}
                 </ul>
 

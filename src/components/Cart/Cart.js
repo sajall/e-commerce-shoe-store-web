@@ -1,9 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { removeItem, resetCart } from "../../redux/slices/CartSlice";
 import { placeOrderApi } from "../../api/order/orders";
+import { useNavigate } from "react-router-dom";
 
 export function Cart() {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const user = JSON.parse(localStorage.getItem('user'))
 
@@ -46,6 +48,7 @@ export function Cart() {
       const res = await placeOrderApi(payload)
       if (res.status == 200) {
         dispatch(resetCart())
+        navigate('/pending-orders')
       }
     }
   }

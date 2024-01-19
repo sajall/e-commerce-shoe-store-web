@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export function Centerbody(){
     return (
-       <div id="center">
+       <div className="h-[100vh]" id="center">
        <div id="white">
            <div>
             <h1>Feet wear <span>Paradise</span></h1>

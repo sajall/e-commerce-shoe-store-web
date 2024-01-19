@@ -1,5 +1,4 @@
 import { Link, useParams } from "react-router-dom";
-import Shoeswiper from "../Shoeswiper/Shoeswiper";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setCart } from "../../redux/slices/CartSlice";
@@ -31,7 +30,12 @@ export function ProductDetails({ }) {
     findProduct();
   }, [])
 
-  const [selectedImg, setSelectedImg] = useState({ isSingleProduct: false, index: 0 });
+
+
+  const [selectedImg, setSelectedImg] = useState("");
+  // const [elementt, setElementt] = useState('');
+
+  // ({ isSingleProduct: false, index: 0 });
   const [selectedSize, setSelectedSize] = useState();
 
   const selectedSizeStyle = `border-2 border-black bg-black text-white w-[80px] h-[30px]`;
@@ -54,13 +58,16 @@ export function ProductDetails({ }) {
       {singleProduct ? (
 
         <>
-          <div className="h-[500px] bg-red-300 flex items-center">
+          <div className="h-[500px] flex items-center">
             {/* image wali div */}
             <div className="w-[50%] flex gap-7 justify-center ">
               <div className=" flex flex-col gap-3">
                 {singleProduct && singleProduct?.images?.map((item, i) => (
                   <img
-                    onClick={() => setSelectedImg({ isSingleProduct: true, index: i })}
+                    onClick={() => 
+                      // setSelectedImg({ isSingleProduct: true, index: i })
+                      setSelectedImg(item)
+                    }
                     className="w-[100px] "
                     src={item}
                     alt=""
@@ -69,15 +76,22 @@ export function ProductDetails({ }) {
               </div>
               <div>
 
-                {selectedImg.isSingleProduct ? <img
-                  className="w-[400px]"
-                  src={singleProduct?.images[selectedImg]}
-                  alt=""
-                /> : <img
+                {/* {
+                  // singleProduct?.images.find((img)=>{})
+                   singleProduct?.images?.forEach((item , index) => {
+                     if(index == 0){
+                       // setElementt(item);  
+                    }
+                    
+                 } ) } */}
+
+                      {singleProduct ? 
+                <img className="w-[400px]" src={selectedImg}alt=""/> 
+                 : <img
                   className="w-[400px]"
                   src={bg}
-                  alt=""
-                />}
+                   alt="" 
+                 />}
               </div>
             </div>
             {/* dussri wali div */}
@@ -117,16 +131,17 @@ export function ProductDetails({ }) {
                     </button>
                   ))}
                 </div>
-                <div className="flex">
+                <div className="flex justify-start items-center  gap-3 w-[350px]">
+                  <span className="font-bold">Quantity:</span>
                   <button
-                    className="border-2 w-[100px] h-[40px] rounded-3xl text-2xl bg-black text-white"
+                    className="border-2 w-[30px] h-[30px]  text-2xl bg-black text-white"
                     onClick={() => setQty(qty - 1)}
                   >
                     -
                   </button>
                   {qty}
                   <button
-                    className="border-2 w-[100px] h-[40px] rounded-3xl text-2xl bg-black text-white"
+                    className="border-2 w-[30px] h-[30px] text-2xl bg-black text-white"
                     onClick={() => setQty(qty + 1)}
                   >
                     +
@@ -146,7 +161,7 @@ export function ProductDetails({ }) {
               </div>
             </div>
           </div>
-          <Shoeswiper></Shoeswiper>
+        
         </>
       ) : 'Loading ...'}
 
