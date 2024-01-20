@@ -1,140 +1,3 @@
-// import React, { useState } from "react";
-
-// const Signup = () => {
-//   const [formData, setFormData] = useState({
-//     name: "",
-//     email: "",
-//     password: "",
-//     streetAddress: "",
-//     city: "",
-//     state: "",
-//     country: "",
-//     postalCode: "",
-//   });
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData((prevData) => ({
-//       ...prevData,
-//       [name]: value,
-//     }));
-//   };
-
-//   const handleSignup = () => {
-//     console.log(formData);
-//     // You can handle the signup logic here using formData
-//   };
-
-//   const handleReset = () => {
-//     setFormData({
-//       name: "",
-//       email: "",
-//       password: "",
-//       streetAddress: "",
-//       city: "",
-//       stateProvince: "",
-//       country: "",
-//       postalCode: "",
-//     });
-//   };
-
-//   return (
-//     <form>
-//       <div>
-//         <label>Name:</label>
-//         <input
-//           type="text"
-//           name="name"
-//           value={formData.name}
-//           onChange={handleChange}
-//         />
-//       </div>
-
-//       <div>
-//         <label>Email:</label>
-//         <input
-//           type="email"
-//           name="email"
-//           value={formData.email}
-//           onChange={handleChange}
-//         />
-//       </div>
-
-//       <div>
-//         <label>Password:</label>
-//         <input
-//           type="password"
-//           name="password"
-//           value={formData.password}
-//           onChange={handleChange}
-//         />
-//       </div>
-
-//       <div>
-//         <label>Street Address:</label>
-//         <input
-//           type="text"
-//           name="streetAddress"
-//           value={formData.streetAddress}
-//           onChange={handleChange}
-//         />
-//       </div>
-
-//       <div>
-//         <label>City:</label>
-//         <input
-//           type="text"
-//           name="city"
-//           value={formData.city}
-//           onChange={handleChange}
-//         />
-//       </div>
-
-//       <div>
-//         <label>State/Province:</label>
-//         <input
-//           type="text"
-//           name="stateProvince"
-//           value={formData.stateProvince}
-//           onChange={handleChange}
-//         />
-//       </div>
-
-//       <div>
-//         <label>Country:</label>
-//         <input
-//           type="text"
-//           name="country"
-//           value={formData.country}
-//           onChange={handleChange}
-//         />
-//       </div>
-
-//       <div>
-//         <label>Postal Code:</label>
-//         <input
-//           type="text"
-//           name="postalCode"
-//           value={formData.postalCode}
-//           onChange={handleChange}
-//         />
-//       </div>
-
-//       <div>
-//         <button type="button" onClick={handleSignup}>
-//           Signup
-//         </button>
-//         <button type="button" onClick={handleReset}>
-//           Reset
-//         </button>
-//       </div>
-//     </form>
-//   );
-// };
-
-// export default Signup;
-
-
 
 import { Box, Button, Divider, Typography } from "@mui/material";
 import { IoIosInformationCircleOutline } from "react-icons/io";
@@ -147,6 +10,9 @@ import { useForm } from "react-hook-form";
 import { AlertBox, AlertBoxParagraph, AlertBoxTage, ArrowBox, ButtonBox, CancelAndSaveBtn, EmailMainBox, InputLable, MailBox, MainInputCityBox, MainZipCodeBox, UserTextField } from "./styled-component";
 import { signupApi } from "../../api/auth/auth";
 import { useNavigate } from "react-router-dom";
+
+
+import {  toast } from 'react-toastify';
 
 export const SignUp = () => {
   const navigate = useNavigate()
@@ -162,6 +28,8 @@ export const SignUp = () => {
 
       if(res.status == 200){
         navigate('/login')
+
+        toast.success("user created successfully")
       }
       console.log(res, 'data');
 
@@ -174,8 +42,6 @@ export const SignUp = () => {
           component="form"
           onSubmit={handleSubmit(onSubmit)}
           sx={{
-            // maxWidth: "600px",
-            // margin: "auto",
             padding: "4rem",
             borderRadius: "8px",
             boxShadow: "0 4px 8px rgba(0,0,0,0.1)",

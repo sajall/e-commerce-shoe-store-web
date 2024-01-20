@@ -16,21 +16,12 @@
  background-color: aliceblue;
  display: flex;
  flex-direction: column;
+ gap: 10px;
  justify-content: center;
  align-items: center;
  text-decoration: none;
+ clip-path: polygon(0 0, 100% 0%, 93% 100%, 0% 100%);
 
-}
-
-#white::after{
-    content: "read this";
-    /* background-color: red; */
-    background-color: aliceblue;
-    right: -22px;
-    position: absolute;
-    width: 100px;
-    height: 800px;
-    transform: rotate(5deg);
 }
 
 #white span{

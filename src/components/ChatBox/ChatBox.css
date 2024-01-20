@@ -1,0 +1,52 @@
+/* ChatBoxMessenger.css */
+
+.chat-messenger-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+  
+  .chat-messenger-icon {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .chat-box-messenger {
+    display: none;
+    width: 300px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: width 0.3s ease;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .message-container-messenger {
+    height: 250px;
+    overflow-y: auto;
+  }
+  
+  .input-container-messenger {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .send-button-messenger {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  /* ... (previous styles) */
+  

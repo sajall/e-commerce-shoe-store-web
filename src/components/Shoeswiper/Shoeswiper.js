@@ -20,15 +20,16 @@ export default function Showswiper({products}) {
       <Swiper
         onSwiper={setSwiperRef}
         slidesPerView={3}
-        spaceBetween={20}
-        loop={true}
+        spaceBetween={30}
+        slidesPerColumn={2}
+        // loop={true}
         navigation={true}
         modules={[Pagination, Navigation]}
         className="mySwiper"
       >
           {products?.map((slide, i)=>(
             
-        <SwiperSlide>
+        <SwiperSlide key={i}>
           <div className=" w-[450px] h-[400px]">
             <img
             src={slide?.images[0]}

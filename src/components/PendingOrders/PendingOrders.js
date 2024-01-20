@@ -24,28 +24,29 @@ export function PendingOrders() {
   }
 
   return (
-    <div className="h-[100vh]">
+    <div className="min-h-[100vh] w-[85vw] m-auto mt-[30px]">
       {orders?.map((crt, i) => {
         return (
           <div
             key={i}
-            className=" border-b-2 border-blue-300 flex  items-center justify-between px-[30px]"
+            className="  border-b-2 border-blue-300 flex  items-center justify-between px-[30px]"
           >
-            <div className="flex flex-col">
+            <div  className="flex flex-col  w-[400px]">
               {crt.items.map((item, i) => (
                 <div
-                  className="flex justify-center items-center gap-5 mt-2"
+                  className="flex   items-center gap-5 p-3 " 
                   key={i}
                 >
                   <img
                     className="h-[70px] w-[70px]"
                     src={item.product.images[0]}
                   />
-                  <div className="">
+                  <div className=" w-[350px] flex flex-col gap-3">
+                    
                     <h1 className="text-sm font-bold">{item?.product?.name}</h1>
-                    <div className="flex justify-between text-gray-700 text-xs">
+                    <div className="flex gap-5 text-gray-700 text-sm font-medium ">
                       <p>Size: {item.size}</p>
-                      <p>Quantity: {item.quantity}</p>
+                      <p className="flex grow" >Quantity: {item.quantity}</p>
                       <p>Price: {item.product.price}</p>
                     </div>
                   </div>
@@ -54,13 +55,13 @@ export function PendingOrders() {
             </div>
 
             <div className="ml-[150px] flex flex-col gap-4 items-end">
-              <p>Sub-Total :{crt?.subtotal}</p>
+              <p className="font-bold text-sm">Sub-Total :{crt?.subtotal}</p>
               {user.isAdmin ? (
                 <button onClick={()=>updateStatus(crt._id)} className="w-[100px] h-[40px] text-green-500 font-bold border-2 rounded-xl">
                  {!crt.status == 'approved' ? 'Approve' : crt.status } 
                 </button>
               ) : (
-                <button className="w-[100px] h-[40px] text-yellow-500 font-bold border-2 rounded-xl">
+                <button className="w-[100px] h-[40px] text-yellow-500 font-bold border-4  rounded-xl">
                   {crt?.status}
                 </button>
               )}

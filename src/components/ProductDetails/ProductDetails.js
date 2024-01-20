@@ -8,10 +8,10 @@ import bg from "../../assets/bg.png";
 
 export function ProductDetails() {
   const dispatch = useDispatch();
+  
   const param = useParams();
-
+  
   const [singleProduct, setSingleProduct] = useState({});
-
   const findProduct = async () => {
     try {
       const res = await getSingleProductApi(param.id);
@@ -27,8 +27,9 @@ export function ProductDetails() {
     findProduct();
   }, []);
 
-  const [selectedImg, setSelectedImg] = useState("");
-  // const [elementt, setElementt] = useState('');
+  const [selectedImage, setSelectedImage] = useState(0);
+
+ 
 
   // ({ isSingleProduct: false, index: 0 });
   const [selectedSize, setSelectedSize] = useState();
@@ -46,24 +47,40 @@ export function ProductDetails() {
     dispatch(setCart(objToDispatch));
   };
 
+
+
+  // if (!singleProduct || !singleProduct.images || singleProduct.images.length === 0) {
+  //   return <div>No product or images available</div>;
+  // }
+
+  const images = singleProduct?.images || [];
+
+  const handleImageClick = (index) => {
+    setSelectedImage(index);
+  };
+
   return (
     <>
       {singleProduct ? (
         <>
-          <div className="h-[500px] flex items-center">
+          <div className="min-h-[600px] flex items-center">
             {/* image wali div */}
             <div className="w-[50%] flex gap-7 justify-center ">
               <div className=" flex flex-col gap-3">
                 {singleProduct &&
-                  singleProduct?.images?.map((item, i) => (
+                   images?.map((item, i) => (
                     <img
-                      onClick={() =>
-                        // setSelectedImg({ isSingleProduct: true, index: i })
-                        setSelectedImg(item)
-                      }
+                      // onClick={() =>
+                      //   // setSelectedImg({ isSingleProduct: true, index: i })
+                      //   setSelectedImg(item)
+                      // }
+
+                      alt={`Product ${i + 1}`}
+                      onClick={() => handleImageClick(i)}
+                     
                       className="w-[100px] "
                       src={item}
-                      alt=""
+                  
                     />
                   ))}
               </div>
@@ -77,11 +94,13 @@ export function ProductDetails() {
                     
                  } ) } */}
 {/* selectedImg */}
-                {singleProduct ? 
+
+<img className="w-[400px] h-[400px]" src={images[selectedImage]} alt={`Product ${selectedImage + 1}`} />
+                {/* {singleProduct ? 
                   < img className="w-[400px] h-[400px] border-2 border-blue-300" src={selectedImg} alt="click to load image" />
                  : 
                   <img className="w-[400px]" src={bg} alt="" />
-                }
+                } */}
               </div>
             </div>
             {/* dussri wali div */}
@@ -148,9 +167,11 @@ export function ProductDetails() {
                     Add to Cart
                   </button>
                 </Link>
-                <button className="border-2 w-[360px] h-[40px] rounded-3xl  bg-black text-white">
+              <Link to='/online-payment'>
+              <button className="border-2 w-[360px] h-[40px] rounded-3xl  bg-black text-white">
                   Online Pyment
                 </button>
+              </Link>  
               </div>
             </div>
           </div>

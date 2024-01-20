@@ -17,6 +17,7 @@ import {
 } from "./styled-component";
 import { Link, useNavigate } from "react-router-dom";
 import { logInApi } from "../../api/auth/auth";
+import { toast } from "react-toastify";
 
 export const Login = () => {
 
@@ -32,8 +33,15 @@ export const Login = () => {
     const res = await logInApi(data)
 
     if(res.status == 200){
+      toast.success('user login ');
         localStorage.setItem('user', JSON.stringify(res.data))
         navigate('/home')
+    }else{
+       if(res.status == 500 || res.status == 404){
+         toast.error('some error occcoured during login ');
+
+       }
+
     }
 
 

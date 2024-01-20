@@ -10,13 +10,20 @@ import { Login } from "./components/Login/Login";
 import { SignUp } from "./components/Signup/Signup";
 import { PendingOrders } from "./components/PendingOrders/PendingOrders";
 import { CompletedOrders } from "./components/CompletedOrders/CompletedOrders";
+import { Onlinepayment } from "./components/Onlinepayment/Onlinepayment";
+import ChatBox from "./components/ChatBox/ChatBox";
+import Category from "./components/Category/Category";
+
 
 function App() {
   return (
     <>
       <div>
         <Header />
+
+        <ChatBox />
       </div>
+
 
       <Routes>
 
@@ -30,7 +37,12 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/pending-orders" element={<PendingOrders />} />
         <Route path="/completed-orders" element={<CompletedOrders />} />
+        <Route path="/online-payment" element={<Onlinepayment />} />
+        <Route path="/category/:cat" element={<Category />} />
+
       </Routes>
+
+
 
       <Footer />
     </>
