@@ -63,7 +63,7 @@ export const Login = () => {
     <>
       {
         error ?
-        <div>{error.message}</div>
+        <div className="min-h-[700px]">{error.message}</div>
         : null
     }
       <MainBoxLogin>

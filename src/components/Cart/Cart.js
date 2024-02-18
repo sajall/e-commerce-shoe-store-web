@@ -68,20 +68,20 @@ console.log(cart , 'this is cart');
 
               {cart.map((crt, i) => {
                 return (
-                  <div className="h-[100px] bg-slate-100 border-b-2 border-blue-300 flex gap-5">
+                  <div className="h-[100px] border-b-2 border-blue-300 flex  p-y-5 gap-5">
                     <img src={crt?.product?.images[0]} alt="" />
-                    <div className="">
-                      <h1>{crt.product.name}</h1>
-                      <span>{crt.product.colors[0]}</span>
+                    <div className=" w-[450px]">
+                      <h1 className="font-bold text-sm" >{crt.product.name}</h1>
+                      <span>{crt.product.colors[0]}</span>end
                       <p>Size: {crt.size}</p>
                       <p>Quantity: {crt.quantity}</p>
                     </div>
-                    <div className="ml-[150px] flex flex-col gap-4 items-end">
-                      <p>
+                    <div className="flex w-[70px]  flex-col gap-4 items-end">
+                      <p className="font-bold text-sm">
                         Price : {crt.quantity * crt?.product?.discountedPrice}{" "}
                       </p>
                       <div
-                        className="pointer"
+                        className="pointer "
                         onClick={() => dispatch(removeItem(i))}
                       >
                         <svg

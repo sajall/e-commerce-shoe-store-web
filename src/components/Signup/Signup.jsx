@@ -22,12 +22,9 @@ export const SignUp = () => {
       handleSubmit,
     } = useForm();
     const [signupUser ,{loading ,error}] = useMutation(SIGNUP_USER);
-    if(loading) return "loading";
-
-
-
-
-
+    if (loading) return <div  className="min-h-[800px]"> 
+  <h1 className="text-2xl font-bold">LOADING...</h1>
+  </div>;
 
 
 
@@ -59,9 +56,9 @@ export const SignUp = () => {
 
   return (
     <>
-    {
+      {
         error ?
-        <div>{error.message}</div>
+        <div className="min-h-[700px]">{error.message}</div>
         : null
     }
       <Box>
