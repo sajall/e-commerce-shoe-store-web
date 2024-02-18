@@ -1,16 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
 import { removeItem, resetCart } from "../../redux/slices/CartSlice";
-import { placeOrderApi } from "../../api/order/orders";
 import { useNavigate } from "react-router-dom";
+import { PLACE_ORDER } from "../../GraphQL/Mutation";
+import { useMutation } from "@apollo/client";
 
 export function Cart() {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [placeOrder, { loading, error, data }] = useMutation(PLACE_ORDER);
 
-  const user = JSON.parse(localStorage.getItem('user'))
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user, "this is uer from localstorage");
 
   const cart = useSelector((state) => state.cart.cart);
-
+console.log(cart , 'this is cart');
   let total = 0;
 
   for (let i = 0; i < cart.length; i++) {
@@ -19,39 +22,40 @@ export function Cart() {
     total += subtotal;
   }
 
-  // calling place order API 
-  const placeOrder = async () => {
-    const updated = cart.map((item) => (
-      { quantity: item.quantity, size: item.size, productId: item?.product?._id }
-    ))
-
-    const payload = {
-      username: user.name,
-      userId: user._id,
-      subtotal: total,
-      items: updated
-      // item : [
-      //   {
-      //     productId: '',
-      //     size: '',
-      //     quantity: ''
-      //   }
-      // ]
-    }
-
-    console.log(payload, 'payload');
+  //   calling place order API
+  const confirmOrder = async () => {
+    
+    const updated = cart.map((item) => ({
+      quantity: item.quantity,
+      size: item.size,
+      _id: item?.product?._id,
+      name: item?.product?.name,
+      images: item?.product?.images,
+      price:item?.product?.price
+    }));
 
     if (updated.length == 0) {
-      alert('add Items to place order')
+      alert("add Items to place order");
     } else {
-
-      const res = await placeOrderApi(payload)
-      if (res.status == 200) {
-        dispatch(resetCart())
-        navigate('/pending-orders')
+      try {
+        await placeOrder({
+          variables: {
+            username: user?.name,
+            userId: user?._id,
+            subtotal: total,
+            items: updated,
+            status: "pending"
+          },
+        });
+        dispatch(resetCart());
+        navigate("/pending-orders");
+        console.log("Order placed succesfully!");
+   
+      } catch (err) {
+        console.error("Failed place Order:", err);
       }
     }
-  }
+  };
 
   return (
     <>
@@ -108,14 +112,16 @@ export function Cart() {
                 <p>RS {total}</p>
               </div>
               <hr />
-              <p
-              >
+              <p>
                 The SubTotal reflects the total price of Your order. Included
-                dues and taxes. before any 824.00application discounts. It does not
-                include delivery cost and international transection fee
+                dues and taxes. before any 824.00application discounts. It does
+                not include delivery cost and international transection fee
               </p>
             </div>
-            <button onClick={placeOrder} className="w-[280px] h-[40px] bg-black text-white rounded-3xl">
+            <button
+              onClick={confirmOrder}
+              className="w-[280px] h-[40px] bg-black text-white rounded-3xl"
+            >
               Checkout
             </button>
           </div>
@@ -124,3 +130,5 @@ export function Cart() {
     </>
   );
 }
+
+

@@ -16,39 +16,56 @@ import {
   SignUpLineBox,
 } from "./styled-component";
 import { Link, useNavigate } from "react-router-dom";
-import { logInApi } from "../../api/auth/auth";
 import { toast } from "react-toastify";
+import { useMutation } from "@apollo/client";
+import {LOGIN_USER} from '../../GraphQL/Mutation';
+
 
 export const Login = () => {
 
-    const navigate = useNavigate()
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
+    const [loginUser , {error , loading , data}] = useMutation(LOGIN_USER);
+    
+    if (loading) return <div className="min-h-[800px]">
+    <h1 className="text-2xl font-bold">LOADING....</h1>;
+    </div>
 
-    const res = await logInApi(data)
 
-    if(res.status == 200){
-      toast.success('user login ');
-        localStorage.setItem('user', JSON.stringify(res.data))
-        navigate('/home')
-    }else{
-       if(res.status == 500 || res.status == 404){
-         toast.error('some error occcoured during login ');
-
-       }
-
+    if(data){
+      localStorage.setItem("token" , data.loginUser.token);
+      localStorage.setItem('user', JSON.stringify(data.loginUser.user))
+      navigate('/home');
+      
     }
 
+  const onSubmit = async (data) => {
+    try {
+        await loginUser ({
+          variables: {
+            email:data.email,
+            password:data.password
+          }
+        });
 
-  };
+        console.log('User Logged in successfully!');
+      } catch (err) {
+        console.error('user Login failed:', err);
+      }
+    }
 
   return (
     <>
+      {
+        error ?
+        <div>{error.message}</div>
+        : null
+    }
       <MainBoxLogin>
         <Box component="form" onSubmit={handleSubmit(onSubmit)}>
           <HeadingBox>Login to your account</HeadingBox>

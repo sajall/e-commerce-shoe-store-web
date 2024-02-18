@@ -8,39 +8,66 @@ import { CiCircleCheck } from "react-icons/ci";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { AlertBox, AlertBoxParagraph, AlertBoxTage, ArrowBox, ButtonBox, CancelAndSaveBtn, EmailMainBox, InputLable, MailBox, MainInputCityBox, MainZipCodeBox, UserTextField } from "./styled-component";
-import { signupApi } from "../../api/auth/auth";
 import { useNavigate } from "react-router-dom";
-
+import { useMutation, useQuery } from "@apollo/client";
 
 import {  toast } from 'react-toastify';
+import { SIGNUP_USER } from "../../GraphQL/Mutation";
 
 export const SignUp = () => {
-  const navigate = useNavigate()
 
-  const {
-    register,
-    handleSubmit,
-  } = useForm();
+      const navigate = useNavigate()
+    const {
+      register,
+      handleSubmit,
+    } = useForm();
+    const [signupUser ,{loading ,error}] = useMutation(SIGNUP_USER);
+    if(loading) return "loading";
 
-  const onSubmit = async (data) => {
 
-      const res = await signupApi(data)
 
-      if(res.status == 200){
-        navigate('/login')
 
-        toast.success("user created successfully")
-      }
-      console.log(res, 'data');
 
+
+
+
+  const saveData = async (data) => {
+    console.log(data.email , 'this is form data');
+    try {
+      await signupUser({
+        variables: {
+          name:data.name,
+          email:data.email,
+          password:data.password,
+          streetAddress:data.streetAddress,
+          city:data.city,
+          state:data.state,
+          country:data.country,
+          postalCode:data.postalCode
+        }
+      });
+      console.log('User created successfully!');
+      navigate('/login')
+    } catch (err) {
+      console.error('Failed to create user:', err);
+    }
   };
+
+
+
+
 
   return (
     <>
+    {
+        error ?
+        <div>{error.message}</div>
+        : null
+    }
       <Box>
         <Box
           component="form"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(saveData)}
           sx={{
             padding: "4rem",
             borderRadius: "8px",

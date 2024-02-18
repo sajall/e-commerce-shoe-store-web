@@ -2,41 +2,41 @@ import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setCart } from "../../redux/slices/CartSlice";
-import { getSingleProductApi } from "../../api/product/product";
-
 import bg from "../../assets/bg.png";
+import { useMutation } from "@apollo/client";
+import { GET_SINGLE_PRODUCT } from "../../GraphQL/Mutation";
 
 export function ProductDetails() {
   const dispatch = useDispatch();
-  
-  const param = useParams();
-  
+  const [selectedImage, setSelectedImage] = useState(0);
+  const [selectedSize, setSelectedSize] = useState();
+  const [qty, setQty] = useState(0);
   const [singleProduct, setSingleProduct] = useState({});
-  const findProduct = async () => {
-    try {
-      const res = await getSingleProductApi(param.id);
-      if (res.status == 200) {
-        setSingleProduct(res.data);
-      }
-    } catch (err) {
-      console.log(err, "some error occoured");
-    }
-  };
+  const param = useParams();
+  const [getSingleProduct, { loading, error, data }] =
+    useMutation(GET_SINGLE_PRODUCT);
 
   useEffect(() => {
+    const findProduct = async () => {
+      try {
+        const { data } = await getSingleProduct({
+          variables: {
+            _id: param.id,
+          },
+        });
+        setSingleProduct(data.getSingleProduct);
+      } catch (err) {
+        console.error("Failed to find product:", err);
+      }
+    };
+
     findProduct();
-  }, []);
-
-  const [selectedImage, setSelectedImage] = useState(0);
-
- 
-
-  // ({ isSingleProduct: false, index: 0 });
-  const [selectedSize, setSelectedSize] = useState();
+  }, [getSingleProduct, param.id]);
+  if (loading) return <div className="min-h-[800px]">
+  <h1 className="text-2xl font-bold">LOADING....</h1>;
+  </div>
 
   const selectedSizeStyle = `border-2 border-black bg-black text-white w-[80px] h-[30px]`;
-
-  const [qty, setQty] = useState(0);
 
   const addToCart = () => {
     const objToDispatch = {
@@ -46,12 +46,6 @@ export function ProductDetails() {
     };
     dispatch(setCart(objToDispatch));
   };
-
-
-
-  // if (!singleProduct || !singleProduct.images || singleProduct.images.length === 0) {
-  //   return <div>No product or images available</div>;
-  // }
 
   const images = singleProduct?.images || [];
 
@@ -68,39 +62,21 @@ export function ProductDetails() {
             <div className="w-[50%] flex gap-7 justify-center ">
               <div className=" flex flex-col gap-3">
                 {singleProduct &&
-                   images?.map((item, i) => (
+                  images?.map((item, i) => (
                     <img
-                      // onClick={() =>
-                      //   // setSelectedImg({ isSingleProduct: true, index: i })
-                      //   setSelectedImg(item)
-                      // }
-
                       alt={`Product ${i + 1}`}
                       onClick={() => handleImageClick(i)}
-                     
                       className="w-[100px] "
                       src={item}
-                  
                     />
                   ))}
               </div>
               <div>
-                {/* {
-                  // singleProduct?.images.find((img)=>{})
-                   singleProduct?.images?.forEach((item , index) => {
-                     if(index == 0){
-                       // setElementt(item);  
-                    }
-                    
-                 } ) } */}
-{/* selectedImg */}
-
-<img className="w-[400px] h-[400px]" src={images[selectedImage]} alt={`Product ${selectedImage + 1}`} />
-                {/* {singleProduct ? 
-                  < img className="w-[400px] h-[400px] border-2 border-blue-300" src={selectedImg} alt="click to load image" />
-                 : 
-                  <img className="w-[400px]" src={bg} alt="" />
-                } */}
+                <img
+                  className="w-[400px] h-[400px]"
+                  src={images[selectedImage]}
+                  alt={`Product ${selectedImage + 1}`}
+                />
               </div>
             </div>
             {/* dussri wali div */}
@@ -167,11 +143,11 @@ export function ProductDetails() {
                     Add to Cart
                   </button>
                 </Link>
-              <Link to='/online-payment'>
-              <button className="border-2 w-[360px] h-[40px] rounded-3xl  bg-black text-white">
-                  Online Pyment
-                </button>
-              </Link>  
+                <Link to="/online-payment">
+                  <button className="border-2 w-[360px] h-[40px] rounded-3xl  bg-black text-white">
+                    Online Pyment
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

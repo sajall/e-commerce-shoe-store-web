@@ -1,122 +1,84 @@
 
-import { useEffect, useState } from 'react';
-import './Header.css'
-import { Link, useNavigate } from 'react-router-dom';
-
-
+import React, { useState } from "react";
+import "./Header.css";
+import { Link, useNavigate } from "react-router-dom";
 
 export function Header() {
+  const [selectedFlvr, setSelectedFlvr] = useState("");
+  const catg = ["Brands", "Bata", "Gucci", "Addidas", "Nike"];
+  const [mydropdown, setMydropdown] = useState(false);
+  const navigate = useNavigate(); // Use useNavigate instead of useHistory
+
+  const showDropdown = () => {
+    setMydropdown((prev) => !prev);
+  };
+
+  const handleFlavorChange = (e) => {
+    const selectedValue = e.target.value;
+    setSelectedFlvr(selectedValue);
+    navigate(`/category/${selectedValue}`);
+  };
 
 
-    const [selectedFlvr, setSelectedFlvr] = useState("");
-    console.log(selectedFlvr, 'selectedFlvr');
+  const token = localStorage.getItem("token");
 
-    const catg = ['Brands','Bata', 'Gucci', 'Addidas', 'Nike']
+  return (
+    <header>
+      <div id="one">
+        <img src="logo.webp" alt="" />
+        <ul id="list">
+          {!token ? (
+            <Link to="/login">
+              <li>Log in</li>
+            </Link>
+          ) : null}
+          {token ? <Link to="/home">Home</Link> : null}
+          {token ? (
+            <Link to="/completed-orders">
+              <li>
+                <b>Completed Orders</b>
+              </li>
+            </Link>
+          ) : null}
+          {token ? (
+            <Link to="/pending-orders">
+              <li>Pending Orders</li>
+            </Link>
+          ) : null}
+        </ul>
 
-    const [mydropdown, setMydropdown] = useState(false);
-    const navigate = useNavigate()
+        {token ? (
+          <select
+            onChange={handleFlavorChange}
+            className="p-2.5 text-gray-500 bg-white m-5  rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600"
+          >
+            {catg.map((flv) => (
+              <option key={flv} value={flv}>
+                {flv}
+              </option>
+            ))}
+          </select>
+        ) : null}
 
-    const showDropdown = () => {
-
-
-        setMydropdown((prev) => !prev);
-
-    }
-
-    // function onChangeCategory(){
-        
-    // }
-useEffect(()=>{
-    navigate(`/category/${selectedFlvr.toLowerCase()}`)
-},[selectedFlvr])
-
-
-    const user = JSON.parse(localStorage.getItem('user'));
-
-    return (
-
-        <header>
-            <div id='one'>
-                <img src="logo.webp" alt="" />
-                <ul id="list">
-                    {!user ?
-                        <Link to='/login'>
-                            <li>Log in</li>
-                        </Link>
-                        : null
-                    }
-                    {/* <li>Admin Panel</li> */}
-                    {user ?
-                        <Link to='/home'>Home</Link>
-                        : null
-                    }
-                    {user ?
-                        <Link to='/completed-orders'>
-                            <li><b>Completed Orders</b></li>
-                        </Link> : null
-                    }
-                    {user ?
-                        <Link to='/pending-orders'>
-                            <li>Pending Orders</li>
-                        </Link>
-                        : null
-                    }
-                    {/* {user ?
-                        < li onClick={showDropdown} id='dropdownparent' >Brands
-                            <ul id='dropdown' className={mydropdown ? 'show' : 'hidden'}>
-                                <li>Addidas</li>
-                                <li>Nike</li>
-                                <li>Service</li>
-                                <li>Bata</li>
-                            </ul>
-                        </li> : null
-                    } */}
-                </ul>
-
-
-{user?
-                <select
-                
-                onChange={(e) => {
-                    setSelectedFlvr(e.target.value)
-                    
+      
+      </div>
+      <div id="two">
+        <ul>
+          {token ? (
+            <li>
+              <button
+                onClick={() => {
+                  localStorage.clear();
+                  navigate("/"); // Navigate to the home page
                 }}
-                className="p-2.5 text-gray-500 bg-white  rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600"
-                >
-
-
-                    {catg.map((flv) => (
-                        <option
-                        key={flv}
-                        value={flv}
-                       
-                        >
-                            {flv}
-                        </option>
-                    ))}
-                </select>
-                :null
-                }
-            </div>
-            <div id='two'>
-                <ul>
-                    {user ?
-                        <li> <button onClick={() => {
-                            localStorage.clear();
-                            navigate('/')
-                        }}><b>Log out</b></button> </li>
-                        : null
-                    }
-                    {user ?
-                        <img src="user.png" alt="" />
-                        : null
-                    }
-                    {/* <li>img</li> */}
-                </ul>
-
-            </div>
-
-        </header>
-
-    );
+              >
+                <b>Log out</b>
+              </button>
+            </li>
+          ) : null}
+          {token ? <img src="user.png" alt="" /> : null}
+        </ul>
+      </div>
+    </header>
+  );
 }

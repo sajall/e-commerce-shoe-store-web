@@ -1,29 +1,53 @@
 import React, { useEffect, useState } from "react";
-import { getproductsApi } from "../../api/product/product";
+// import { getproductsApi } from "../../api/product/product";
 import { useParams } from "react-router-dom";
+import { getALL } from "../../GraphQL/Query";
+import { useQuery } from "@apollo/client";
+
 
 
 export default function Category() {
-
+  
+  const [search , setSearch] = useState("");
+    const [products, setProducts] = useState([])
 const brands =["Addidas" , "Service" , "Nike" , "Bata" , "pumma" ,"Spider" , "services"]
 
   const param = useParams()
+  console.log(param.cat , 'this is param');
 
-  const [products, setProducts] = useState([])
+  
+  const { loading, error, data } = useQuery(getALL);
 
   useEffect(() => {
-    getproductsApi().then((res) => setProducts(res.data))
-  }, [])
+    if(data){
 
-const filteredProducts = products.filter((prod)=> prod.category.toLowerCase() == param.cat);
-console.log(filteredProducts , 'jwhfbje');
+        setProducts(data?.getAll);
+        
+    }
+  }, [data]);
+  
+  console.log(data , 'data');
+  console.log(error , 'this is error');
+  if (loading) return <div  className="min-h-[800px]"> 
+  <h1 className="text-2xl font-bold">LOADING...</h1>
+  </div>;
 
-  const handleSearch = (event) => {
-    // Implement your search logic here
-    const searchTerm = event.target.value;
-    console.log('Searching for:', searchTerm);
-  };
+console.log(products , 'this is my all products');
 
+
+
+
+
+const handleSearch = (event) => {
+  const searchTerm = event.target.value;
+  setSearch(searchTerm);
+};
+
+
+const filteredProducts = products.filter((item) => 
+  item.name.toLowerCase().includes(search.toLowerCase())
+);
+console.log(filteredProducts , 'this filter');
 
 
   
@@ -101,4 +125,6 @@ console.log(filteredProducts , 'jwhfbje');
             </div>
     </>
   )
+   
+
   }
