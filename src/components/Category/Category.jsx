@@ -35,9 +35,6 @@ const brands =["Addidas" , "Service" , "Nike" , "Bata" , "pumma" ,"Spider" , "se
 console.log(products , 'this is my all products');
 
 
-
-
-
 const handleSearch = (event) => {
   const searchTerm = event.target.value;
   setSearch(searchTerm);

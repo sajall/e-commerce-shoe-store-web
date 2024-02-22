@@ -12,6 +12,7 @@ export const InputLable = styled(Typography)({
     fontSize: '.9rem',
     marginTop: '1.4rem'
 })
+
 // *************Email Box **********
 
 export const EmailMainBox = styled(Box)({
